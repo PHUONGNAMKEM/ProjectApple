@@ -26,8 +26,8 @@
 .button {
   outline: 0 !important;
   border: 0 !important;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: transparent;
   display: flex;
@@ -36,6 +36,10 @@
   color: #252525;
   transition: all ease-in-out 0.3s;
   cursor: pointer;
+}
+
+.btn-active {
+  background-color: #43c2b7;
 }
 
 /* .button:hover {
@@ -143,4 +147,22 @@ input:focus {
 
 .flex_1 {
   flex: 1;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color: #ccc;}
+
+.title {
+  font-weight: 600;
+  font-size: 24px;
+  text-align: center;
+  padding: 50px 0;
 }
