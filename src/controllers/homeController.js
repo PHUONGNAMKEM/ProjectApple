@@ -1,23 +1,12 @@
 const connection = require('../config/database');
+const { getAllUsers } = require('../services/CRUDService');
 
-const getHomePage = (req, res) => {
+const getHomePage = async (req, res) => {
     // res.status(404).send('Not Found');
     // res.json({ message: 'Hello World!' });
 
-    // let users = [];
-    // // get data here
-    // connection.query(
-    //     'SELECT * FROM products p',
-    //     function(err, results, fields) {
-    //         users = results;
-    //         console.log(">>> check results home page=", results);
-
-    //         // console.log(">>> check user =", users);
-    //         res.send(JSON.stringify(users));
-    //     }
-    // );
-
-    return res.render('home.ejs');
+    let results = await getAllUsers();
+    return res.render('home.ejs', {listUsers: results}); // giá trị trước dấu : là giá trị truyền qua view còn sau dấu : là gtri muốn gán cho biến trước dấu :
 }
 
 const getAPI = (req, res) => {
