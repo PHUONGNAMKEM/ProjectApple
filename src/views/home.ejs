@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/css/sharing.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/grid.css">
+    <link rel="stylesheet" href="/css/edit.css">
+
 </head>
 
 <body>
@@ -116,13 +118,13 @@
                         <% listUsers.forEach(function(user) {%>
                             <tr>
                                 <td>
+                                    <%= user.id %>
+                                </td>
+                                <td>
                                     <%= user.fullname %>
                                 </td>
                                 <td>
                                     <%= user.email %>
-                                </td>
-                                <td>
-                                    <%= user.password %>
                                 </td>
                                 <td>
                                     <%= user.phone %>
@@ -134,8 +136,11 @@
                                     <%= user.role %>
                                 </td>
                                 <td>
-                                    <button>Edit</button>
-                                    <button>Delete</button>
+                                    <a href="/update/<%= user.id %>">Edit</a>
+
+                                    <form action="/delete-user/<%= user.id %>" method="POST">
+                                        <button>Delete</button>
+                                    </form>
                                 </td>
 
                             </tr>

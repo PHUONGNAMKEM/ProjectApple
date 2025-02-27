@@ -1,0 +1,10 @@
+fieldset {
+    border-radius: 10px;
+}
+legend {
+    margin-left: 10px;
+}
+
+.d-none {
+    display: none;
+}

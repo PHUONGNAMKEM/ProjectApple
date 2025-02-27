@@ -1,5 +1,5 @@
 const connection = require('../config/database');
-const { getAllUsers } = require('../services/CRUDService');
+const { getAllUsers, getUserById, updateUserById, deleteUserById } = require('../services/CRUDService');
 
 const getHomePage = async (req, res) => {
     // res.status(404).send('Not Found');
@@ -39,6 +39,7 @@ const postCreateUser = async (req, res) => {
     );
 
     res.send('Created a user successfully!');
+    // res.redirect('/');
 }
 
 const getCreateUser = (req, res) => {
@@ -51,10 +52,43 @@ const getCreateUser = (req, res) => {
     res.render('create.ejs');
 }
 
+const getUpdateUser = async (req, res) => {
+    const userId = req.params.id;
+    let user = await getUserById(userId);
+    res.render('edit.ejs', {userEdit: user});
+}
+
+const postUpdateUser = async (req, res) => {
+
+    let {fullname, email, password, phone, address, role} = req.body;
+    let userId = req.body.userId;
+
+    await updateUserById(fullname, email, password, phone, address, userId);
+
+    res.redirect('/');
+}
+
+const postDeleteUser = async (req, res) => { // hàm này tương ứng với route /delete-user/:id để lấy user theo id hiển thị lên form confirm delete
+    const userId = req.params.id;
+    let user = await getUserById(userId);
+    res.render('delete.ejs', { userDelete: user});
+}
+
+const postHandleRemoveUser = async (req, res) => {
+    let userId = req.body.userId;
+
+    await deleteUserById(userId);
+    res.redirect('/');
+}
+
 module.exports = {
     getHomePage,
     getAPI,
     getIFanIT,
     postCreateUser,
-    getCreateUser
+    getCreateUser,
+    getUpdateUser,
+    postUpdateUser, 
+    postDeleteUser,
+    postHandleRemoveUser
 }
