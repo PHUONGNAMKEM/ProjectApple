@@ -9,8 +9,57 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/grid.css">
     <link rel="stylesheet" href="/css/edit.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
+
+<script>
+    // 1. đảm bảo chỉ chạy sau khi HTML được load xong
+    // 2. chỉ định sự kiện click của nút btnDelete 
+    // 3. lấy ra id của nút đó thông qua thuộc tính data-id
+    // 4. kiểm tra nếu muốn xóa user với id = ${id} 
+    // 5. $ajax({url:window.location.origin/route, method:, success:closest().remove(), error: function console lỗi})
+    // giải thích từng câu lệnh trong file C:\Users\Lenovo\Downloads\NodeJS\Install\crud-be của máy tính
+
+    $(document).ready(function () {
+        $(".btnDelete").click(function () {
+            const id = $(this).attr("data-id");
+            if (confirm(`Are you sure to delete this user, id = ${id}`)) {
+                // cách 1 là truyền id thông qua biến nên có thể truy cập bằng req.params
+                // $.ajax({
+                //     url: `${window.location.origin}/delete-user-ajax/${id}`,
+                //     method: "DELETE",
+                //     success: (result) => {
+                //         $(this).closest("tr").remove();
+                //     },
+                //     error: function (error) {
+                //         console.log("Ajax error: ", error);
+                //     }
+                // });
+
+                // cách ajax thứ 2: dùng req.body bên controller do method DELETE không dùng biến trên url (req.params) được, nên sẽ truyền qua tham số data:
+                // (và lưu ý route của cách 2 này không cần phải /${id} )
+                $.ajax({
+                    url: `${window.location.origin}/delete-user-ajax`,
+                    method: "POST",
+                    data: { userId: id }, // Gửi userId qua body
+                    success: (result) => {
+                        if (result.success) {
+                            $(this).closest("tr").remove(); // Xóa dòng user
+                        }
+                    },
+                    error: function (error) {
+                        console.log("Ajax error: ", error);
+                    }
+                });
+
+            }
+            else {
+                // Do nothing!
+            }
+        })
+    });
+</script>
 
 <body>
     <div class="app">
@@ -140,7 +189,12 @@
 
                                     <form action="/delete-user/<%= user.id %>" method="POST">
                                         <button>Delete</button>
+                                        <span style="font-size: 10px; color: rgb(237, 93, 93)">(không dùng Ajax - sẽ bị
+                                            load lại trang)</span>
                                     </form>
+
+                                    <button class="btnDelete" data-id="<%= user.id %>">Delete</button>
+                                    <span style="font-size: 10px; color: rgb(20, 213, 159)">(có dùng Ajax)</span>
                                 </td>
 
                             </tr>

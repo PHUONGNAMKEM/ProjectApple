@@ -1,5 +1,5 @@
 const connection = require('../config/database');
-const { getAllUsers, getUserById, updateUserById, deleteUserById } = require('../services/CRUDService');
+const { getAllUsers, getUserById, updateUserById, deleteUserById, deleteUserByIdAjax } = require('../services/CRUDService');
 
 const getHomePage = async (req, res) => {
     // res.status(404).send('Not Found');
@@ -81,6 +81,20 @@ const postHandleRemoveUser = async (req, res) => {
     res.redirect('/');
 }
 
+const postDeletAjaxUser_post = async (req, res) => {
+    let userId = req.body.userId;
+    await deleteUserByIdAjax(userId);
+    // res.redirect('/');
+    res.json({ success: true });
+}
+
+const postDeletAjaxUser_delete = async (req, res) => {
+    let userId = req.params.id;
+    await deleteUserByIdAjax(userId);
+    // res.redirect('/'); nếu dùng thằng này thì khi ajax nhận phản hồi từ server nó ko biết xử lý direct nên ko cập nhật giao diện
+    res.json({ success: true });
+}
+
 module.exports = {
     getHomePage,
     getAPI,
@@ -90,5 +104,7 @@ module.exports = {
     getUpdateUser,
     postUpdateUser, 
     postDeleteUser,
-    postHandleRemoveUser
+    postHandleRemoveUser,
+    postDeletAjaxUser_post,
+    postDeletAjaxUser_delete
 }
