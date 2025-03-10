@@ -2,8 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const configViewEngine = require("./config/viewEngine");
 const webRoutes = require("./routes/web");
-const Kitten = require("./models/Kitten");
-
 const connection = require("./config/database");
 
 const app = express();
@@ -20,7 +18,7 @@ configViewEngine(app);
 // khai báo route
 app.use("/", webRoutes);
 
-// const cat = new Kitten({ name: 'iFanIT\'s model' }); // Tạo một instance (đối tượng) mới của model Kitten với dữ liệu cụ thể: { name: 'Silence' } tên là cat
+// const cat = new User({ name: 'iFanIT\'s model' }); // Tạo một instance (đối tượng) mới của model Kitten với dữ liệu cụ thể: { name: 'Silence' } tên là cat
 // cat.save(); // lưu cat xuống db với giá trị của cột name là Silence
 // // xong tất cả thì nó sẽ tạo một db test ở dưới mongodb
 

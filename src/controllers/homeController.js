@@ -1,11 +1,10 @@
 const connection = require('../config/database');
 const { getAllUsers, getUserById, updateUserById, deleteUserById, deleteUserByIdAjax } = require('../services/CRUDService');
 
-const getHomePage = async (req, res) => {
-    // res.status(404).send('Not Found');
-    // res.json({ message: 'Hello World!' });
+const User = require("../models/user");
 
-    let results = await getAllUsers();
+const getHomePage = async (req, res) => {
+    let results = [];
     return res.render('home.ejs', {listUsers: results}); // giá trị trước dấu : là giá trị truyền qua view còn sau dấu : là gtri muốn gán cho biến trước dấu :
 }
 
@@ -19,24 +18,38 @@ const getIFanIT = (req, res) => {
 
 const postCreateUser = async (req, res) => {
 
-    let {fullname, email, password, phone, address, role} = req.body;
+    let {fullname, email, password, phone, address, role} = req.body; // tên biến trùng với object muốn lấy : tên tự đặt
+    // ví dụ: const obj = { name: "Nguyen Van A", mail: "a@example.com" };
+    // let { name: fullName, mail: emailAddress } = obj; // fullName là tên biến tự đặt để dùng
+    // console.log(fullName);      // "Nguyen Van A" // nếu trùng nhau thì viết object destructuring
 
     console.log('fullname = ', fullname, 'email = ', email, 'password = ', password, 'phone = ', phone, 'address = ', address, 'role = ', role);
 
-    // connection.query(
-    //     `INSERT INTO users (fullname, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, phone, address, role],
-    //     function(err, result) {  ko cần function này nữa, đây là cách dùng callback, bị bất đồng bộ
-    //         console.log(result);
-    //         res.send('Created a user successfully!');
-    //     }
+    // let [results, fields] = await connection.query(
+    //     `INSERT INTO users (fullname, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, phone, address, role]
     // );
 
-    // hàm execute trả về cho mình một cái mảng nên mình sẽ khai báo [rows, fields] - bên file database đã sửa lại thành mysql/promise để dùng async-await
-    // const [results, fields] = await connection.query('SELECT * FROM users');
+    // cách dùng thông thường
+    // await User.create({
+    //     fullname: fullname, // fullname bên trái (key của User) : bên phải (value) là biến lấy ở trên 
+    //     email: email,   // nếu trùng nhau thì có thể viết short hand
+    //     password: password,
+    //     phone: phone,
+    //     address: address,
+    // })
 
-    let [results, fields] = await connection.query(
-        `INSERT INTO users (fullname, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, phone, address, role]
-    );
+    // cách dùng object destructuring
+    await User.create({
+        fullname,
+        email,
+        password,
+        phone,
+        address,
+    });
+
+    // cách 2 create document
+    // const usertest = new User({fullname, email, password, phone, address });
+    // await usertest.save();
 
     res.send('Created a user successfully!');
     // res.redirect('/');
