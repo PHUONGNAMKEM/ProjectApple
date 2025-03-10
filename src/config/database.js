@@ -4,19 +4,19 @@ const mongoose = require('mongoose');
 
 const dbState = [{
   value: 0,
-  label: "disconnected"
+  label: "Disconnected"
 },
 {
   value: 1,
-  label: "connected"
+  label: "Connected"
 },
 {
   value: 2,
-  label: "connecting"
+  label: "Connecting"
 },
 {
   value: 3,
-  label: "disconnecting"
+  label: "Disconnecting"
 }];
 
 
@@ -29,7 +29,7 @@ const connection = async () => {
 
   await mongoose.connect(process.env.DB_HOST, options);
   const state = Number(mongoose.connection.readyState); // mongoose.connection.readyState ở đây trả về kiểu số rồi, tương ứng với các số 0, 1, 2, 3 như trên để cho biết trạng thái hiện tại của kến nối đến db MongoDB
-  console.log(dbState.find(f => f.value == state).label, "to db"); // connected to db
+  console.log(dbState.find(f => f.value === state).label, "to database"); // connected to db
 }
 
 module.exports = connection;
