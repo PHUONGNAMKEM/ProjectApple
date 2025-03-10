@@ -46,6 +46,7 @@ const postCreateUser = async (req, res) => {
         phone,
         address,
     });
+    await Tank.find({ size: 'small' }).where('createdDate').gt(oneYearAgo).exec();
 
     // cách 2 create document
     // const usertest = new User({fullname, email, password, phone, address });
