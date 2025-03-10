@@ -4,7 +4,7 @@ const { getAllUsers, getUserById, updateUserById, deleteUserById, deleteUserById
 const User = require("../models/user");
 
 const getHomePage = async (req, res) => {
-    let results = [];
+    let results = await User.find({});
     return res.render('home.ejs', {listUsers: results}); // giá trị trước dấu : là giá trị truyền qua view còn sau dấu : là gtri muốn gán cho biến trước dấu :
 }
 
@@ -23,21 +23,6 @@ const postCreateUser = async (req, res) => {
     // let { name: fullName, mail: emailAddress } = obj; // fullName là tên biến tự đặt để dùng
     // console.log(fullName);      // "Nguyen Van A" // nếu trùng nhau thì viết object destructuring
 
-    console.log('fullname = ', fullname, 'email = ', email, 'password = ', password, 'phone = ', phone, 'address = ', address, 'role = ', role);
-
-    // let [results, fields] = await connection.query(
-    //     `INSERT INTO users (fullname, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)`, [fullname, email, password, phone, address, role]
-    // );
-
-    // cách dùng thông thường
-    // await User.create({
-    //     fullname: fullname, // fullname bên trái (key của User) : bên phải (value) là biến lấy ở trên 
-    //     email: email,   // nếu trùng nhau thì có thể viết short hand
-    //     password: password,
-    //     phone: phone,
-    //     address: address,
-    // })
-
     // cách dùng object destructuring
     await User.create({
         fullname,
@@ -46,14 +31,14 @@ const postCreateUser = async (req, res) => {
         phone,
         address,
     });
-    await Tank.find({ size: 'small' }).where('createdDate').gt(oneYearAgo).exec();
 
     // cách 2 create document
     // const usertest = new User({fullname, email, password, phone, address });
     // await usertest.save();
 
-    res.send('Created a user successfully!');
-    // res.redirect('/');
+    // res.send('Created a user successfully!');
+    res.redirect('/');
+
 }
 
 const getCreateUser = (req, res) => {
@@ -68,7 +53,10 @@ const getCreateUser = (req, res) => {
 
 const getUpdateUser = async (req, res) => {
     const userId = req.params.id;
-    let user = await getUserById(userId);
+    // let user = await getUserById(userId);
+    // có một lưu ý cho chúng ta khi dùng exec đó là những hàm như find(), findOne(), findById() thì thg sẽ có .exec()
+    // vì các hàm này sẽ trả về một query object tức là nó chưa cần phải query trực tiếp xuống nên cần exec để rõ ràng hơn - còn nếu các hàm như updateOne(), deleteOne(), create() thì nó trả về một Promise nên không cần .exec()
+    let user = await User.findById(userId).exec();
     res.render('edit.ejs', {userEdit: user});
 }
 
@@ -77,7 +65,9 @@ const postUpdateUser = async (req, res) => {
     let {fullname, email, password, phone, address, role} = req.body;
     let userId = req.body.userId;
 
-    await updateUserById(fullname, email, password, phone, address, userId);
+    // await updateUserById(fullname, email, password, phone, address, userId);
+    // ở đây nó dùng 2 object, 1 là dkien tìm kiếm document cần cập nhật, 2 là dl mới cần cập nhật
+    await User.updateOne({_id: userId}, {fullname: fullname, email: email, password: password, phone: phone, address});
 
     res.redirect('/');
 }
