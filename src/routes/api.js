@@ -1,17 +1,17 @@
 const express = require('express')
 const routerAPI = express.Router()
-const { getUsersApi } = require('../controllers/apiController');
+const { getUsersAPI, postCreateUsersAPI, putUpdateUserAPI, deleteUserAPI } = require('../controllers/apiController');
 
-routerAPI.get('/', (req, res) => {
-    res.send("Hello API");
-});
+// .json() giúp mình truyền theo dạng object trong JS - nhưng khi client nhận được thì express sẽ chuyển object thành JSON
+//  res. cái gì đó thì nó chỉ nhận về .json(), .send() hoặc .end() - còn ko thì nó sẽ quay 10 vòng trái đất
 
-routerAPI.get('/abc', (req, res) => {
-    res.status(200).json({
-        data: 'hello world with api - ABC' // ở đây .json() giúp mình truyền theo dạng object trong JS - nhưng khi client nhận được thì express sẽ chuyển object thành JSON
-    });
-});
+routerAPI.get('/users', getUsersAPI);
 
-routerAPI.get('/users', getUsersApi);
+routerAPI.post('/users', postCreateUsersAPI);
+
+routerAPI.put('/users', putUpdateUserAPI);
+
+routerAPI.delete('/users', deleteUserAPI);
+
 
 module.exports = routerAPI;

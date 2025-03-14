@@ -5,7 +5,7 @@ const User = require("../models/user");
 
 const getHomePage = async (req, res) => {
     let results = await User.find({});
-    return res.render('home.ejs', {listUsers: results}); // giá trị trước dấu : là giá trị truyền qua view còn sau dấu : là gtri muốn gán cho biến trước dấu :
+    return res.render('home.ejs', { listUsers: results }); // giá trị trước dấu : là giá trị truyền qua view còn sau dấu : là gtri muốn gán cho biến trước dấu :
 }
 
 const getAPI = (req, res) => {
@@ -18,7 +18,7 @@ const getIFanIT = (req, res) => {
 
 const postCreateUser = async (req, res) => {
 
-    let {fullname, email, password, phone, address, role} = req.body; // tên biến trùng với object muốn lấy : tên tự đặt
+    let { fullname, email, password, phone, address, role } = req.body; // tên biến trùng với object muốn lấy : tên tự đặt
     // ví dụ: const obj = { name: "Nguyen Van A", mail: "a@example.com" };
     // let { name: fullName, mail: emailAddress } = obj; // fullName là tên biến tự đặt để dùng
     // console.log(fullName);      // "Nguyen Van A" // nếu trùng nhau thì viết object destructuring
@@ -57,17 +57,17 @@ const getUpdateUser = async (req, res) => {
     // có một lưu ý cho chúng ta khi dùng exec đó là những hàm như find(), findOne(), findById() thì thg sẽ có .exec()
     // vì các hàm này sẽ trả về một query object tức là nó chưa cần phải query trực tiếp xuống nên cần exec để rõ ràng hơn - còn nếu các hàm như updateOne(), deleteOne(), create() thì nó trả về một Promise nên không cần .exec()
     let user = await User.findById(userId).exec();
-    res.render('edit.ejs', {userEdit: user});
+    res.render('edit.ejs', { userEdit: user });
 }
 
 const postUpdateUser = async (req, res) => {
 
-    let {fullname, email, password, phone, address, role} = req.body;
+    let { fullname, email, password, phone, address, role } = req.body;
     let userId = req.body.userId;
 
     // await updateUserById(fullname, email, password, phone, address, userId);
     // ở đây nó dùng 2 object, 1 là dkien tìm kiếm document cần cập nhật, 2 là dl mới cần cập nhật
-    await User.updateOne({_id: userId}, {fullname: fullname, email: email, password: password, phone: phone, address});
+    await User.updateOne({ _id: userId }, { fullname: fullname, email: email, password: password, phone: phone, address });
 
     res.redirect('/');
 }
@@ -76,7 +76,7 @@ const postDeleteUser = async (req, res) => { // hàm này tương ứng với ro
     const userId = req.params.id;
     // let user = await getUserById(userId);
     let user = await User.findById(userId).exec();
-    res.render('delete.ejs', { userDelete: user});
+    res.render('delete.ejs', { userDelete: user });
 }
 
 const postHandleRemoveUser = async (req, res) => {
@@ -109,7 +109,7 @@ module.exports = {
     postCreateUser,
     getCreateUser,
     getUpdateUser,
-    postUpdateUser, 
+    postUpdateUser,
     postDeleteUser,
     postHandleRemoveUser,
     postDeletAjaxUser_post,
