@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const configViewEngine = require("./config/viewEngine");
 const webRoutes = require("./routes/web");
+const apiRoutes = require("./routes/api");
 const connection = require("./config/database");
 
 const app = express();
@@ -17,6 +18,8 @@ configViewEngine(app);
 
 // khai báo route
 app.use("/", webRoutes);
+
+app.use("/v1/api/", apiRoutes);
 
 // const cat = new User({ name: 'iFanIT\'s model' }); // Tạo một instance (đối tượng) mới của model Kitten với dữ liệu cụ thể: { name: 'Silence' } tên là cat
 // cat.save(); // lưu cat xuống db với giá trị của cột name là Silence
