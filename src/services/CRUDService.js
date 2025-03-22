@@ -14,7 +14,7 @@ const getUserById = async (userId) => {
 
 const updateUserById = async (fullname, email, password, phone, address, userId) => {
     let [results, fields] = await connection.query(
-        `UPDATE users 
+        `UPDATE users   
         SET fullname  = ?, email = ?, password = ?, phone = ?, address = ?
         where id = ?`, [fullname, email, password, phone, address, userId]
     );

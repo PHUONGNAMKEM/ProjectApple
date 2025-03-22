@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {getHomePage, getAPI, getIFanIT, postCreateUser, getCreateUser, getUpdateUser, postUpdateUser, postDeleteUser,
+const { getHomePage, getAPI, getIFanIT, postCreateUser, getCreateUser, getUpdateUser, postUpdateUser, postDeleteUser,
     postHandleRemoveUser, postDeletAjaxUser_post, postDeletAjaxUser_delete
 } = require('../controllers/homeController');
 
