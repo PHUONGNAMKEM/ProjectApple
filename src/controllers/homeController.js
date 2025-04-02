@@ -2,6 +2,7 @@ const connection = require('../config/database');
 const { getAllUsers, getUserById, updateUserById, deleteUserById, deleteUserByIdAjax } = require('../services/CRUDService');
 
 const User = require("../models/user");
+const Project = require("../models/project");
 
 const getHomePage = async (req, res) => {
     let results = await User.find({});
@@ -102,6 +103,26 @@ const postDeletAjaxUser_delete = async (req, res) => {
     res.json({ success: true });
 }
 
+
+const getCreateProject = (req, res) => {
+
+    res.render('create_project.ejs');
+}
+
+const postCreateProject = async (req, res) => {
+
+    let { imgPath, title, description, githubLink, demoLink } = req.body;
+
+    await Project.create({
+        imgPath, title, description, githubLink, demoLink
+    });
+
+    // res.send('Created a user successfully!');
+    res.redirect('/');
+
+}
+
+
 module.exports = {
     getHomePage,
     getAPI,
@@ -113,5 +134,6 @@ module.exports = {
     postDeleteUser,
     postHandleRemoveUser,
     postDeletAjaxUser_post,
-    postDeletAjaxUser_delete
+    postDeletAjaxUser_delete,
+    getCreateProject, postCreateProject
 }

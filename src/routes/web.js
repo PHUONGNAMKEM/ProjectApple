@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { getHomePage, getAPI, getIFanIT, postCreateUser, getCreateUser, getUpdateUser, postUpdateUser, postDeleteUser,
-    postHandleRemoveUser, postDeletAjaxUser_post, postDeletAjaxUser_delete
+    postHandleRemoveUser, postDeletAjaxUser_post, postDeletAjaxUser_delete, getCreateProject, postCreateProject
 } = require('../controllers/homeController');
 
 // route.Method('/route', handler_callbackfunction)
@@ -21,5 +21,8 @@ router.post('/delete-user', postHandleRemoveUser); // khi điền thông tin xon
 // còn ở đây mình sẽ định nghĩa 1 route ajax khi bấm vào là sẽ xóa luôn
 router.post('/delete-user-ajax/', postDeletAjaxUser_post);
 router.delete('/delete-user-ajax/:id', postDeletAjaxUser_delete);
+
+router.get('/create-ui-project', getCreateProject); // tạo một giao diện nhập thông tin project mới
+router.post('/create-project', postCreateProject); // lưu thông tin project mới xuống db
 
 module.exports = router;
