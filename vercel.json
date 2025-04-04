@@ -2,18 +2,18 @@
     "version": 2,
     "builds": [
         {
-            "src": "vercel-entry.js",
+            "src": "server.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "/v1/api/(.*)",
-            "dest": "vercel-entry.js"
-        },
-        {
             "src": "/(.*)",
-            "dest": "vercel-entry.js"
+            "dest": "server.js"
         }
-    ]
+    ],
+    "env": {
+        "PORT": "8888",
+        "HOST_NAME": "0.0.0.0"
+    }
 }
