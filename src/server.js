@@ -44,30 +44,20 @@ app.use("/v1/api/", apiRoutes);
 
 // đây là cách sử dụng arrow function không cần đặt tên trước - self-running function - giúp chúng ta không cần gọi
 // hàm 1 cách thủ công nữa mà hàm sẽ tự động chạy khi dùng self-running function
-(async () => {
-  // test connection
-  try {
-    await connection();
-    // app.listen(port, hostname, () => {
-    //   console.log(`My Apple Project app listening on port ${port}`);
-    // });
-  } catch (error) {
-    console.log(">>> Error connect to DB: ", error);
-  }
-})();
+// (async () => {
+//   // test connection
+//   try {
+//     await connection();
+//     app.listen(port, hostname, () => {
+//       console.log(`My Apple Project app listening on port ${port}`);
+//     });
+//   } catch (error) {
+//     console.log(">>> Error connect to DB: ", error);
+//   }
+// })();
+app.listen(port, hostname, () => {
+  console.log(`My Apple Project app listening on port ${port}`);
+});
 
-// // Chỉ chạy app.listen() nếu không phải Vercel
-// if (!process.env.VERCEL) {
-//   (async () => {
-//     try {
-//       await connection();
-//       app.listen(port, hostname, () => {
-//         console.log(`My Apple Project app listening on port ${port}`);
-//       });
-//     } catch (error) {
-//       console.log(">>> Error connect to DB: ", error);
-//     }
-//   })();
-// }
 
-module.exports = app;
+
