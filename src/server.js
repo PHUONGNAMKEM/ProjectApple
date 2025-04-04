@@ -48,9 +48,12 @@ app.use("/v1/api/", apiRoutes);
   // test connection
   try {
     await connection();
-    app.listen(port, hostname, () => {
-      console.log(`My Apple Project app listening on port ${port}`);
-    });
+    if (!process.env.VERCEL) {
+      app.listen(port, hostname, () => {
+        console.log(`My Apple Project app listening on port ${port}`);
+      });
+    }
+
   } catch (error) {
     console.log(">>> Error connect to DB: ", error);
   }
@@ -69,8 +72,4 @@ app.use("/v1/api/", apiRoutes);
 //     }
 //   })();
 // }
-app.get("/", (req, res) => {
-  res.send("Server is running on Vercel!");
-});
-// // Xuất app để dùng trong vercel-entry.js
-module.exports = app;
+
