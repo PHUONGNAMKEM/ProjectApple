@@ -8,7 +8,6 @@ const customerSchema = new mongoose.Schema(
         email: { type: String, required: true, unique: true },
         image: String,
         description: String,
-
     },
     { timestamps: true } // ở đây khai báo biến này để có thể dùng createdAt và updateAt
 ); // ở đây định nghĩa một Schema là một cấu trúc xác định cách dữ liệu sẽ được lưu trữ trong MongoDB

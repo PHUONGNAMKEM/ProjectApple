@@ -1,5 +1,9 @@
+
 const Project = require("../models/project");
 const User = require("../models/user");
+
+
+const { uploadSingleFile, uploadMultipleFiles } = require("../services/fileService");
 
 const getUsersAPI = async (req, res) => {
     let results = await User.find({});
@@ -18,7 +22,7 @@ const postCreateUsersAPI = async (req, res) => {
         email,
         password,
         phone,
-        address,
+        address
     });
 
     return res.status(200).json({
@@ -57,9 +61,38 @@ const deleteUserAPI = async (req, res) => {
 
 
 const postUploadSingleFileApi = async (req, res) => {
-    console.log(">>> check req.files: ", req.files);
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    let result = await uploadSingleFile(req.files.image);
+    console.log(">>> check result: ", result);
+
     return res.send("ok single");
 }
+
+const postUploadMultipleFilesApi = async (req, res) => {
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // nếu req.files.image là một array tức là nó chứa nhiều hình ảnh -> upload multiple file
+    if (Array.isArray(req.files.image)) {
+        console.log("check req.files.image:", req.files.image);
+        let result = await uploadMultipleFiles(req.files.image);
+        return res.status(200).json({
+            EC: 0,
+            data: result
+        });
+    }
+    else {
+        return await postUploadSingleFileApi(req, res);
+    }
+}
+
+
 
 const getProjectsAPI = async (req, res) => {
     let results = await Project.find({});
@@ -74,5 +107,5 @@ const getProjectsAPI = async (req, res) => {
 
 
 module.exports = {
-    getUsersAPI, postCreateUsersAPI, putUpdateUserAPI, deleteUserAPI, postUploadSingleFileApi, getProjectsAPI, getProjectsAPI,
+    getUsersAPI, postCreateUsersAPI, putUpdateUserAPI, deleteUserAPI, postUploadSingleFileApi, getProjectsAPI, postUploadMultipleFilesApi
 }
